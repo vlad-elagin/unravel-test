@@ -1,13 +1,15 @@
-import Head from "next/head";
+import Head from 'next/head';
+
+import Gallery from '@components/Gallery';
 
 export default function Home() {
   return (
     <>
       <Head>
-        <title>Unravel Test Task</title>
+        <title>Gallery - Unravel Test</title>
       </Head>
 
-      <main>hi i am main</main>
+      <Gallery />
     </>
   );
 }
