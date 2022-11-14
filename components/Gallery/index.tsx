@@ -1,7 +1,18 @@
 import React from 'react';
 
+import ImageTile from '@components/ImageTile';
+import { useGallery } from 'hooks/gallery';
+
 const Gallery: React.FC = () => {
-  return <div className="min-h-[100px] w-full outline">hi i am gallery</div>;
+  const { images } = useGallery();
+
+  return (
+    <div className="min-h-[150px] w-full columns-1 gap-8 md:columns-2 lg:columns-4">
+      {images.map((img) => (
+        <ImageTile key={img.id} {...img} />
+      ))}
+    </div>
+  );
 };
 
 export default Gallery;

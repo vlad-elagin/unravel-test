@@ -37,6 +37,7 @@ export default async function handler(
           id: img.id,
           description: img.alt_description || 'No description 😒',
           url: img.urls.regular,
+          orientation: img.width > img.height ? 'landscape' : 'portrait',
         }));
 
         res.status(200).send({ images: parsedImages });

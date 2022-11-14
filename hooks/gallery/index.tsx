@@ -1,5 +1,5 @@
 import React from 'react';
-import { IImage, IImagesRequest } from 'interfaces';
+import { IImage, IImagesResponse } from 'interfaces';
 
 interface IGalleryContext {
   images: IImage[];
@@ -23,7 +23,7 @@ export const GalleryProvider: React.FC<{ children: React.ReactNode }> = ({
       const requestQuery = new URLSearchParams({ query });
 
       const res = await fetch('/api/images?' + requestQuery.toString());
-      const { loadedImages } = await res.json();
+      const { images: loadedImages } = (await res.json()) as IImagesResponse;
 
       if (!loadedImages) {
         throw new Error();
