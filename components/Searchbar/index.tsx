@@ -1,12 +1,37 @@
 import clsx from 'clsx';
+import { useGallery } from 'hooks/gallery';
 import React from 'react';
 import { MdSearch } from 'react-icons/md';
 
 const Searchbar: React.FC<{ className?: string }> = ({ className }) => {
+  const [query, setQuery] = React.useState('');
+  const { loadImages } = useGallery();
+
+  const onSearch = () => {
+    if (query.length > 2) {
+      loadImages(query);
+    }
+  };
+
   return (
     <div className={clsx(className, 'mx-auto flex w-full max-w-[545px]')}>
-      <input className="[color: rgba(0,0,0,0.87)] h-12 grow rounded-full bg-_grey px-6 text-xl tracking-wide" />
-      <button className="ml-4 flex h-12 w-12 items-center justify-center rounded-full bg-_violet">
+      <input
+        placeholder="Enter 3+ chars to search"
+        value={query}
+        onChange={(evt) => setQuery(evt.target.value)}
+        className="[color: rgba(0,0,0,0.87)] h-12 grow rounded-full bg-_grey px-6 text-xl tracking-wide focus:outline-_violet"
+        onKeyDown={(evt) => {
+          if (evt.key === 'Enter') {
+            evt.preventDefault();
+            onSearch();
+          }
+        }}
+      />
+
+      <button
+        onClick={onSearch}
+        className="ml-4 flex h-12 w-12 items-center justify-center rounded-full bg-_violet"
+      >
         <MdSearch className="text-white" size="32px" />
       </button>
     </div>

@@ -12,7 +12,7 @@ const Layout: React.FC<{ children: React.ReactNode; className?: string }> = ({
   return (
     <div className={clsx(className, 'min-h-screen px-4 pt-8 lg:px-8 lg:pt-20')}>
       <header className="flex justify-center">
-        <Image src={Logo} alt="Classify Logo" />
+        <Image priority src={Logo} alt="Classify Logo" />
       </header>
 
       <main className="mt-4 font-sans lg:mt-8">
