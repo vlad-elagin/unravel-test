@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { IImage } from 'interfaces';
 import clsx from 'clsx';
 
-const tags = ['test', 'test', 'test'];
+const tags = ['tag1', 'tag2', 'tag3'];
 
 const ImageTile: React.FC<IImage> = (image) => {
   return (
@@ -34,7 +34,7 @@ const ImageTile: React.FC<IImage> = (image) => {
         <div className="flex">
           {tags.map((t) => (
             <span
-              key={t}
+              key={`${image.id}-${t}`}
               className="mr-2 block bg-_grey px-2.5 py-2 text-_navy"
             >
               {t}

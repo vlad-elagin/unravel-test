@@ -1,5 +1,6 @@
 import { IImage, IImagesResponse } from 'interfaces';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { getTags } from 'services/imagga';
 import unsplash from 'services/unsplash';
 
 const DEFAULT_LIMIT = '10';
@@ -39,6 +40,11 @@ export default async function handler(
           url: img.urls.regular,
           orientation: img.width > img.height ? 'landscape' : 'portrait',
         }));
+
+        // get tags
+        // const tags = await Promise.allSettled(
+        //   parsedImages.map((i) => getTags(i.url)),
+        // );
 
         res.status(200).send({ images: parsedImages });
       } catch (err) {
