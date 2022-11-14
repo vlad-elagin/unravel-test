@@ -1,12 +1,22 @@
 import React from 'react';
 import Image from 'next/image';
+import useSWR from 'swr';
 
 import { IImage } from 'interfaces';
-import clsx from 'clsx';
 
 const tags = ['tag1', 'tag2', 'tag3'];
 
 const ImageTile: React.FC<IImage> = (image) => {
+  const { data: imageDataUrl } = useSWR(image.url, (url) =>
+    fetch(url)
+      .then((res) => res.blob())
+      .then((res) => URL.createObjectURL(res)),
+  );
+
+  if (!imageDataUrl) {
+    return null;
+  }
+
   const imageAspectRatio =
     Number((image.height / image.width).toFixed(2)) * 100;
 
@@ -14,15 +24,13 @@ const ImageTile: React.FC<IImage> = (image) => {
     <figure className="mb-8 break-inside-avoid">
       <div className="relative" style={{ paddingTop: `${imageAspectRatio}%` }}>
         <Image
-          src={image.url}
+          src={imageDataUrl}
           alt={image.description}
           sizes="(max-width: 768px) 100vw,
               (max-width: 1200px) 50vw,
               33vw"
           className="relative rounded-xl object-cover"
           priority
-          placeholder="blur"
-          blurDataURL={image.blurHash}
           fill
         />
       </div>

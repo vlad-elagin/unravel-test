@@ -39,7 +39,6 @@ export default async function handler(
           id: img.id,
           description: img.alt_description || 'No description 😒',
           url: img.urls.regular,
-          blurHash: blurhashToDataUrl(img.blur_hash!),
           width: img.width,
           height: img.height,
         }));

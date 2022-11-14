@@ -9,7 +9,6 @@ export type IImage = {
   id: string;
   url: string;
   description: string;
-  blurHash: string;
 
   width: number;
   height: number;

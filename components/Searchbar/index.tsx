@@ -1,16 +1,15 @@
 import clsx from 'clsx';
-import { useGallery } from 'hooks/gallery';
 import React from 'react';
 import { MdSearch } from 'react-icons/md';
 
-const Searchbar: React.FC<{ className?: string }> = ({ className }) => {
+const Searchbar: React.FC<{
+  className?: string;
+  onSearch: (query: string) => void;
+}> = ({ className, onSearch }) => {
   const [query, setQuery] = React.useState('');
-  const { loadImages } = useGallery();
 
-  const onSearch = () => {
-    if (query.length > 2) {
-      loadImages(query);
-    }
+  const onSearchClick = () => {
+    onSearch(query);
   };
 
   return (
@@ -23,13 +22,13 @@ const Searchbar: React.FC<{ className?: string }> = ({ className }) => {
         onKeyDown={(evt) => {
           if (evt.key === 'Enter') {
             evt.preventDefault();
-            onSearch();
+            onSearchClick();
           }
         }}
       />
 
       <button
-        onClick={onSearch}
+        onClick={onSearchClick}
         className="ml-4 flex h-12 w-12 items-center justify-center rounded-full bg-_violet"
       >
         <MdSearch className="text-white" size="32px" />
