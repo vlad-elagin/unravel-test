@@ -9,11 +9,10 @@ export type IImage = {
   id: string;
   url: string;
   description: string;
+  blurHash: string;
 
-  /**
-   * Calculated property which affects height of image tile
-   */
-  orientation: 'portrait' | 'landscape';
+  width: number;
+  height: number;
 
   // tags: string[];
 };

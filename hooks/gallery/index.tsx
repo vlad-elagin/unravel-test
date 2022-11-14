@@ -2,12 +2,14 @@ import React from 'react';
 import { IImage, IImagesResponse } from 'interfaces';
 
 interface IGalleryContext {
-  images: IImage[];
+  images: IImage[] | null;
+  isLoading: boolean;
   loadImages: (query: string) => void;
 }
 
 const GalleryContext = React.createContext<IGalleryContext>({
-  images: [],
+  images: null,
+  isLoading: false,
 
   // stubs to be overwritten
   loadImages: () => {},
@@ -16,9 +18,11 @@ const GalleryContext = React.createContext<IGalleryContext>({
 export const GalleryProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [images, setImages] = React.useState<IImage[]>([]);
+  const [isLoading, setLoading] = React.useState(false);
+  const [images, setImages] = React.useState<IImage[] | null>(null);
 
   const loadImages = async (query: string) => {
+    setLoading(true);
     try {
       const requestQuery = new URLSearchParams({ query });
 
@@ -29,15 +33,16 @@ export const GalleryProvider: React.FC<{ children: React.ReactNode }> = ({
         throw new Error();
       }
 
-      console.log(loadedImages);
       setImages(loadedImages);
     } catch (err) {
       alert("Couldn't load images 😒");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <GalleryContext.Provider value={{ images, loadImages }}>
+    <GalleryContext.Provider value={{ images, isLoading, loadImages }}>
       {children}
     </GalleryContext.Provider>
   );

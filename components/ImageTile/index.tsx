@@ -7,22 +7,23 @@ import clsx from 'clsx';
 const tags = ['tag1', 'tag2', 'tag3'];
 
 const ImageTile: React.FC<IImage> = (image) => {
+  const imageAspectRatio =
+    Number((image.height / image.width).toFixed(2)) * 100;
+
   return (
     <figure className="mb-8 break-inside-avoid">
-      <div
-        className={clsx('relative', {
-          'h-[480px]': image.orientation === 'portrait',
-          'h-[215px]': image.orientation === 'landscape',
-        })}
-      >
+      <div className="relative" style={{ paddingTop: `${imageAspectRatio}%` }}>
         <Image
           src={image.url}
           alt={image.description}
-          fill
           sizes="(max-width: 768px) 100vw,
               (max-width: 1200px) 50vw,
               33vw"
           className="relative rounded-xl object-cover"
+          priority
+          placeholder="blur"
+          blurDataURL={image.blurHash}
+          fill
         />
       </div>
 

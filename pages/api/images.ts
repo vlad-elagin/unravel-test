@@ -2,6 +2,7 @@ import { IImage, IImagesResponse } from 'interfaces';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getTags } from 'services/imagga';
 import unsplash from 'services/unsplash';
+import { blurhashToDataUrl } from 'utils';
 
 const DEFAULT_LIMIT = '10';
 const DEFAULT_PAGE = '1';
@@ -38,7 +39,9 @@ export default async function handler(
           id: img.id,
           description: img.alt_description || 'No description 😒',
           url: img.urls.regular,
-          orientation: img.width > img.height ? 'landscape' : 'portrait',
+          blurHash: blurhashToDataUrl(img.blur_hash!),
+          width: img.width,
+          height: img.height,
         }));
 
         // get tags
@@ -48,6 +51,8 @@ export default async function handler(
 
         res.status(200).send({ images: parsedImages });
       } catch (err) {
+        console.log(err);
+
         res.status(500).send({});
       }
       return;
