@@ -1,9 +1,9 @@
 import React from 'react';
 import Head from 'next/head';
 
-import Gallery from '@components/Gallery';
 import Searchbar from '@components/Searchbar';
 import Preloader from '@components/Preloader';
+import GalleryContainer from 'containers/Gallery';
 
 export default function Home() {
   /**
@@ -27,7 +27,7 @@ export default function Home() {
       <div className="flex min-h-[250px] w-full flex-col items-center justify-center">
         {query && query.length > 2 ? (
           <React.Suspense fallback={<Preloader />}>
-            <Gallery query={query} />
+            <GalleryContainer query={query} />
           </React.Suspense>
         ) : (
           <span className="text-xl">

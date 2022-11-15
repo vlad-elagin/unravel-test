@@ -1,67 +1,16 @@
 import React from 'react';
-import useSWRInfinite from 'swr/infinite';
 import Masonry from '@mui/lab/Masonry';
-import InfiniteScroll from 'react-swr-infinite-scroll';
 
-import ImageTile from '@components/ImageTile';
-import { IImage, IImagesResponse } from 'interfaces';
-import { DEFAULT_LIMIT } from '@utils/const';
-import Preloader from '@components/Preloader';
+import { IImage } from 'interfaces';
+import ImageTileContainer from 'containers/ImageTile';
 
-const Gallery: React.FC<{ query: string }> = ({ query }) => {
-  const swr = useSWRInfinite<IImagesResponse>(
-    (pageIndex, prevPageData) => {
-      if (prevPageData && !prevPageData.images?.length) {
-        return null;
-      }
-      const requestQuery = new URLSearchParams({
-        query,
-        page: (pageIndex + 1).toString(),
-      });
-      return '/api/images?' + requestQuery.toString();
-    },
-    { revalidateFirstPage: false },
-  );
-
-  const { data, error } = swr;
-
-  React.useEffect(() => {
-    if (error) {
-      alert("Couldn't load images 😱😱😱");
-    }
-  }, [error]);
-
-  // pluck multiple pages response
-  const images = React.useMemo(
-    () =>
-      data
-        ? data.reduce<IImage[]>((acc, val) => {
-            acc = acc.concat(val.images!);
-            return acc;
-          }, [])
-        : [],
-    [data],
-  );
-
-  if (!data) {
-    return null;
-  }
-
+const Gallery: React.FC<{ images: IImage[] }> = ({ images }) => {
   return (
-    <InfiniteScroll
-      swr={swr}
-      offset={-50}
-      isReachingEnd={
-        (data[data.length - 1]?.images?.length || 0) < DEFAULT_LIMIT
-      }
-      loadingIndicator={<Preloader />}
-    >
-      <Masonry className="mb-4" spacing={4} columns={{ xs: 1, sm: 2, lg: 4 }}>
-        {images!.map((img) => (
-          <ImageTile key={img.id} {...img} />
-        ))}
-      </Masonry>
-    </InfiniteScroll>
+    <Masonry className="mb-4" spacing={4} columns={{ xs: 1, sm: 2, lg: 4 }}>
+      {images.map((img) => (
+        <ImageTileContainer key={img.id} {...img} />
+      ))}
+    </Masonry>
   );
 };
 
