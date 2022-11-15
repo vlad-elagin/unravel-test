@@ -2,7 +2,6 @@ import { IImage, IImagesResponse } from 'interfaces';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getTags } from 'services/imagga';
 import unsplash from 'services/unsplash';
-import { blurhashToDataUrl } from 'utils';
 
 const DEFAULT_LIMIT = '10';
 const DEFAULT_PAGE = '1';
@@ -33,7 +32,7 @@ export default async function handler(
           throw new Error();
         }
 
-        const { results } = response;
+        const { results, total } = response;
 
         const parsedImages: IImage[] = results.map((img) => ({
           id: img.id,
@@ -48,7 +47,7 @@ export default async function handler(
         //   parsedImages.map((i) => getTags(i.url)),
         // );
 
-        res.status(200).send({ images: parsedImages });
+        res.status(200).send({ images: parsedImages, total });
       } catch (err) {
         console.log(err);
 

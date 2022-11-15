@@ -19,7 +19,7 @@ export default function Home() {
         onSearch={(newQuery) => setQuery(newQuery)}
       />
 
-      <div className="flex min-h-[250px] w-full items-center justify-center">
+      <div className="flex min-h-[250px] w-full flex-col items-center justify-center">
         {query && query.length > 2 ? (
           <React.Suspense fallback={<Preloader />}>
             <Gallery query={query} />

@@ -9,7 +9,12 @@ const Layout: React.FC<{ children: React.ReactNode; className?: string }> = ({
   className,
 }) => {
   return (
-    <div className={clsx(className, 'min-h-screen px-4 pt-8 lg:px-8 lg:pt-20')}>
+    <div
+      className={clsx(
+        className,
+        'min-h-screen px-4 pt-8 pb-8 lg:px-8 lg:pt-20',
+      )}
+    >
       <header className="flex justify-center">
         <Image priority src={Logo} alt="Classify Logo" />
       </header>

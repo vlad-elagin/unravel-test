@@ -1,10 +1,3 @@
-export type IPagination = {
-  page: number;
-  limit: number;
-};
-
-export type IImagesRequest = IPagination & { query: string };
-
 export type IImage = {
   id: string;
   url: string;
@@ -18,4 +11,5 @@ export type IImage = {
 
 export type IImagesResponse = {
   images?: IImage[];
+  total?: number;
 };
