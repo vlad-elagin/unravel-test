@@ -10,7 +10,6 @@ export type IImage = {
 
 export type IImagesResponse = {
   images?: IImage[];
-  total?: number;
 };
 
 export type ITagsResponse = {

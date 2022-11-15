@@ -1,7 +1,8 @@
+import type { NextApiRequest, NextApiResponse } from 'next';
+
 import { DEFAULT_LIMIT, DEFAULT_PAGE } from '@utils/const';
 import { blurhashToDataUrl } from '@utils/index';
 import { IImage, IImagesResponse } from 'interfaces';
-import type { NextApiRequest, NextApiResponse } from 'next';
 import unsplash from 'services/unsplash';
 
 export default async function handler(
@@ -45,7 +46,7 @@ export default async function handler(
           ),
         }));
 
-        res.status(200).send({ images: parsedImages, total });
+        res.status(200).send({ images: parsedImages });
       } catch (err) {
         console.log(err);
 

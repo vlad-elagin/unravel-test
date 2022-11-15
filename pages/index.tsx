@@ -6,6 +6,11 @@ import Searchbar from '@components/Searchbar';
 import Preloader from '@components/Preloader';
 
 export default function Home() {
+  /**
+   * NOTE logic ideally should be moved to stateful containers or context.
+   * Page-level components should be used only for composition.
+   * Not required for such small projects tho
+   */
   const [query, setQuery] = React.useState<string | null>(null);
 
   return (

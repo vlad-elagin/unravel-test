@@ -1,4 +1,4 @@
-import { IImagesResponse, ITagsResponse } from 'interfaces';
+import { ITagsResponse } from 'interfaces';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getTags } from 'services/imagga';
 
