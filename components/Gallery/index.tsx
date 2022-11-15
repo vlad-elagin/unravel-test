@@ -5,6 +5,7 @@ import ImageTile from '@components/ImageTile';
 import { IImagesResponse } from 'interfaces';
 import InfiniteScroll from 'react-swr-infinite-scroll';
 import { DEFAULT_LIMIT } from '@utils/const';
+import Preloader from '@components/Preloader';
 
 const Gallery: React.FC<{ query: string }> = ({ query }) => {
   const swr = useSWRInfinite<IImagesResponse>(
@@ -50,6 +51,7 @@ const Gallery: React.FC<{ query: string }> = ({ query }) => {
       swr={swr}
       offset={-50}
       isReachingEnd={data[data.length - 1]?.images!.length < DEFAULT_LIMIT}
+      loadingIndicator={<Preloader />}
     >
       <div className="mb-4 columns-1 gap-8 md:columns-2 lg:columns-4">
         {images?.map((img) => (

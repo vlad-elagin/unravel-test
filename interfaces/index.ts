@@ -5,6 +5,7 @@ export type IImage = {
 
   width: number;
   height: number;
+  blurHash: string;
 
   // tags: string[];
 };

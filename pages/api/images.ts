@@ -1,4 +1,5 @@
 import { DEFAULT_LIMIT, DEFAULT_PAGE } from '@utils/const';
+import { blurhashToDataUrl } from '@utils/index';
 import { IImage, IImagesResponse } from 'interfaces';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getTags } from 'services/imagga';
@@ -38,6 +39,7 @@ export default async function handler(
           url: img.urls.regular,
           width: img.width,
           height: img.height,
+          blurHash: blurhashToDataUrl(img.blur_hash!),
         }));
 
         // get tags
