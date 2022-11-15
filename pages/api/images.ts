@@ -39,7 +39,11 @@ export default async function handler(
           url: img.urls.regular,
           width: img.width,
           height: img.height,
-          blurHash: blurhashToDataUrl(img.blur_hash!),
+          blurHash: blurhashToDataUrl(
+            img.blur_hash!,
+            Math.round(img.width / 100),
+            Math.round(img.height / 100),
+          ),
         }));
 
         // get tags

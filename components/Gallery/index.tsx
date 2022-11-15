@@ -1,9 +1,10 @@
 import React from 'react';
 import useSWRInfinite from 'swr/infinite';
+import Masonry from '@mui/lab/Masonry';
+import InfiniteScroll from 'react-swr-infinite-scroll';
 
 import ImageTile from '@components/ImageTile';
 import { IImagesResponse } from 'interfaces';
-import InfiniteScroll from 'react-swr-infinite-scroll';
 import { DEFAULT_LIMIT } from '@utils/const';
 import Preloader from '@components/Preloader';
 
@@ -50,14 +51,16 @@ const Gallery: React.FC<{ query: string }> = ({ query }) => {
     <InfiniteScroll
       swr={swr}
       offset={-50}
-      isReachingEnd={data[data.length - 1]?.images!.length < DEFAULT_LIMIT}
+      isReachingEnd={
+        (data[data.length - 1]?.images?.length || 0) < DEFAULT_LIMIT
+      }
       loadingIndicator={<Preloader />}
     >
-      <div className="mb-4 columns-1 gap-8 md:columns-2 lg:columns-4">
-        {images?.map((img) => (
+      <Masonry className="mb-4" spacing={4} columns={{ xs: 1, sm: 2, lg: 4 }}>
+        {images!.map((img) => (
           <ImageTile key={img.id} {...img} />
         ))}
-      </div>
+      </Masonry>
     </InfiniteScroll>
   );
 };
