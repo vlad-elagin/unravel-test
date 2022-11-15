@@ -1,10 +1,8 @@
+import { DEFAULT_LIMIT, DEFAULT_PAGE } from '@utils/const';
 import { IImage, IImagesResponse } from 'interfaces';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getTags } from 'services/imagga';
 import unsplash from 'services/unsplash';
-
-const DEFAULT_LIMIT = '10';
-const DEFAULT_PAGE = '1';
 
 export default async function handler(
   req: NextApiRequest,

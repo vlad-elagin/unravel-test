@@ -3,9 +3,11 @@ import useSWRInfinite from 'swr/infinite';
 
 import ImageTile from '@components/ImageTile';
 import { IImagesResponse } from 'interfaces';
+import InfiniteScroll from 'react-swr-infinite-scroll';
+import { DEFAULT_LIMIT } from '@utils/const';
 
 const Gallery: React.FC<{ query: string }> = ({ query }) => {
-  const { data, size, setSize } = useSWRInfinite<IImagesResponse>(
+  const swr = useSWRInfinite<IImagesResponse>(
     (pageIndex, prevPageData) => {
       if (prevPageData && !prevPageData.images?.length) {
         return null;
@@ -18,6 +20,8 @@ const Gallery: React.FC<{ query: string }> = ({ query }) => {
     },
     { revalidateFirstPage: false },
   );
+
+  const { data } = swr;
 
   // pluck multiple pages response
   const { images, total } = React.useMemo(
@@ -42,15 +46,17 @@ const Gallery: React.FC<{ query: string }> = ({ query }) => {
   }
 
   return (
-    <>
+    <InfiniteScroll
+      swr={swr}
+      offset={-50}
+      isReachingEnd={data[data.length - 1]?.images!.length < DEFAULT_LIMIT}
+    >
       <div className="mb-4 columns-1 gap-8 md:columns-2 lg:columns-4">
         {images?.map((img) => (
           <ImageTile key={img.id} {...img} />
         ))}
       </div>
-
-      <button onClick={() => setSize(size + 1)}>load more</button>
-    </>
+    </InfiniteScroll>
   );
 };
 
