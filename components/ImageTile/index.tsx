@@ -31,7 +31,9 @@ const ImageTile: React.FC<IImage> = (image) => {
       <div className="relative" style={{ paddingTop: `${imageAspectRatio}%` }}>
         <Image
           src={image.url}
-          alt={image.description}
+          alt={`${image.description}, ${
+            data?.tags && 'keywords:' + data?.tags.join(',')
+          }`}
           sizes="(max-width: 768px) 100vw,
               (max-width: 1200px) 50vw,
               33vw"
