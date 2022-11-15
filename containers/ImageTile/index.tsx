@@ -6,7 +6,7 @@ import ImageTile from '@components/ImageTile';
 const ImageTileContainer: React.FC<IImage> = (image) => {
   const [shouldFetchTags, fetchTags] = React.useState(false);
 
-  const { data, error } = useSWR<ITagsResponse>(
+  const { data, error, isValidating } = useSWR<ITagsResponse>(
     shouldFetchTags
       ? `/api/tags?${new URLSearchParams({ url: image.url })}`
       : null,
@@ -19,7 +19,14 @@ const ImageTileContainer: React.FC<IImage> = (image) => {
     }
   }, [error]);
 
-  return <ImageTile {...image} tags={data?.tags} fetchTags={fetchTags} />;
+  return (
+    <ImageTile
+      {...image}
+      tags={data?.tags}
+      fetchTags={fetchTags}
+      tagsLoading={isValidating}
+    />
+  );
 };
 
 export default ImageTileContainer;

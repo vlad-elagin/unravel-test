@@ -7,11 +7,13 @@ import { IImage, ITagsResponse } from 'interfaces';
 type IImageTileProps = IImage & {
   tags?: string[];
   fetchTags: (val: boolean) => void;
+  tagsLoading: boolean;
 };
 
 const ImageTile: React.FC<IImageTileProps> = ({
   tags,
   fetchTags,
+  tagsLoading,
   id,
   blurHash,
   height,
@@ -45,6 +47,10 @@ const ImageTile: React.FC<IImageTileProps> = ({
         <span className="mb-4 block text-xl font-bold text-_navy">
           {description}
         </span>
+
+        {tagsLoading ? (
+          <span className="text-sm text-_navy">Loading tags</span>
+        ) : null}
 
         {tags ? (
           <div className="flex flex-wrap">
