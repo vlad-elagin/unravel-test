@@ -1,16 +1,33 @@
 import React from 'react';
 import Image from 'next/image';
+import useSWR from 'swr';
 
-import { IImage } from 'interfaces';
-
-const tags = ['tag1', 'tag2', 'tag3'];
+import { IImage, ITagsResponse } from 'interfaces';
 
 const ImageTile: React.FC<IImage> = (image) => {
+  const [shouldFetchTags, fetchTags] = React.useState(false);
+
+  const { data, error } = useSWR<ITagsResponse>(
+    shouldFetchTags
+      ? `/api/tags?${new URLSearchParams({ url: image.url })}`
+      : null,
+    { suspense: false },
+  );
+
+  React.useEffect(() => {
+    if (error) {
+      alert("Couldn't load tags 😱");
+    }
+  }, [error]);
+
   const imageAspectRatio =
     Number((image.height / image.width).toFixed(2)) * 100;
 
   return (
-    <figure className="mb-8 break-inside-avoid">
+    <figure
+      className="mb-8 cursor-pointer break-inside-avoid"
+      onClick={() => fetchTags(true)}
+    >
       <div className="relative" style={{ paddingTop: `${imageAspectRatio}%` }}>
         <Image
           src={image.url}
@@ -31,16 +48,18 @@ const ImageTile: React.FC<IImage> = (image) => {
           {image.description}
         </span>
 
-        <div className="flex">
-          {tags.map((t) => (
-            <span
-              key={`${image.id}-${t}`}
-              className="mr-2 block bg-_grey px-2.5 py-2 text-_navy"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
+        {data?.tags ? (
+          <div className="flex flex-wrap">
+            {data.tags.map((t) => (
+              <span
+                key={`${image.id}-${t}`}
+                className="mr-2 mb-2 block bg-_grey px-2.5 py-2 text-_navy"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+        ) : null}
       </figcaption>
     </figure>
   );

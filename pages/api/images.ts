@@ -2,7 +2,6 @@ import { DEFAULT_LIMIT, DEFAULT_PAGE } from '@utils/const';
 import { blurhashToDataUrl } from '@utils/index';
 import { IImage, IImagesResponse } from 'interfaces';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getTags } from 'services/imagga';
 import unsplash from 'services/unsplash';
 
 export default async function handler(
@@ -45,11 +44,6 @@ export default async function handler(
             Math.round(img.height / 100),
           ),
         }));
-
-        // get tags
-        // const tags = await Promise.allSettled(
-        //   parsedImages.map((i) => getTags(i.url)),
-        // );
 
         res.status(200).send({ images: parsedImages, total });
       } catch (err) {

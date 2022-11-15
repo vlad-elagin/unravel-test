@@ -6,11 +6,13 @@ export type IImage = {
   width: number;
   height: number;
   blurHash: string;
-
-  // tags: string[];
 };
 
 export type IImagesResponse = {
   images?: IImage[];
   total?: number;
+};
+
+export type ITagsResponse = {
+  tags?: string[];
 };

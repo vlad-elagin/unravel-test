@@ -23,7 +23,13 @@ const Gallery: React.FC<{ query: string }> = ({ query }) => {
     { revalidateFirstPage: false },
   );
 
-  const { data } = swr;
+  const { data, error } = swr;
+
+  React.useEffect(() => {
+    if (error) {
+      alert("Couldn't load images 😱😱😱");
+    }
+  }, [error]);
 
   // pluck multiple pages response
   const { images, total } = React.useMemo(
