@@ -78,9 +78,7 @@ export default async function handler(
 
         res.status(200).send({ images: parsedImages });
       } catch (err) {
-        console.log(err);
-
-        res.status(500).send({});
+        res.status(500).send({ images: [] });
       }
       return;
 

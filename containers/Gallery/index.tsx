@@ -35,7 +35,7 @@ const GalleryContainer: React.FC<{ query: string }> = ({ query }) => {
     () =>
       data
         ? data.reduce<IImage[]>((acc, val) => {
-            acc = acc.concat(val.images!);
+            acc = acc.concat(val.images || []);
             return acc;
           }, [])
         : [],
@@ -44,6 +44,10 @@ const GalleryContainer: React.FC<{ query: string }> = ({ query }) => {
 
   if (!data) {
     return null;
+  }
+
+  if (!images.length) {
+    return <span className="text-xl">No results</span>;
   }
 
   return (
