@@ -10,7 +10,7 @@ const ImageTileContainer: React.FC<IImage> = (image) => {
     shouldFetchTags
       ? `/api/tags?${new URLSearchParams({ url: image.url })}`
       : null,
-    { suspense: false },
+    { suspense: false, revalidateOnFocus: false },
   );
 
   React.useEffect(() => {
